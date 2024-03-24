@@ -6,7 +6,7 @@ class MyListView extends StatelessWidget {
   List<String> titleArry = [
     'VOLTAGE',
     'CURRENT',
-    'CO0',
+    'CO2',
     'METHANE',
     'FLAME',
     'SMOKE'
@@ -21,11 +21,11 @@ class MyListView extends StatelessWidget {
     "Air Quality"
   ];
   List ImagePath = [
-    'assets/images/voltage icon.png',
-    'assets/images/current icon.png',
-    'assets/images/CO2 icon.png',
-    'assets/images/ch4 icon.png',
-    'assets/images/flame icon.png',
+    'assets/images/voltage.png',
+    'assets/images/current.png',
+    'assets/images/co2.png',
+    'assets/images/methane.png',
+    'assets/images/flame.png',
     'assets/images/smoke icon.png'
   ];
   List tralingText = ['220 v', '10 A', '1000 ppm', '100 ppm'];
@@ -70,7 +70,7 @@ class MyListView extends StatelessWidget {
                           shape: BoxShape.circle,
                           color: Colors.red,
                         ),
-                      ), // Circular container with red color for last two items
+                      ),
               ),
             ),
           );
