@@ -1,16 +1,35 @@
+import 'package:eco_scan/Auth/auth_page.dart';
 import 'package:eco_scan/components/signin_button.dart';
 import 'package:eco_scan/components/signup_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import 'data_monitoring.dart';
 import 'my_textformfield.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   LoginPage({super.key});
-  //Text editing controller
-  final usernameController = TextEditingController();
-  final passwordController = TextEditingController();
 
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final FirebaseAuthServices _auth = FirebaseAuthServices();
+  //Text editing controller
+  final emailController = TextEditingController();
+
+  final passwordController = TextEditingController();
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    // TODO: implement dispose
+    super.dispose();
+  }
+
+  //Login method
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
@@ -52,8 +71,8 @@ class LoginPage extends StatelessWidget {
                   width: 300,
                 ),
                 textformfield(
-                  hinttext: 'Username',
-                  controller: usernameController,
+                  hinttext: 'Email',
+                  controller: emailController,
                   obscureText: false,
                 ),
                 SizedBox(
@@ -66,7 +85,9 @@ class LoginPage extends StatelessWidget {
                 SizedBox(
                   height: 30,
                 ),
-                SignInButton(),
+                SignInButton(
+                  onPressed: signIn,
+                ),
                 SizedBox(
                   height: 15,
                 ),
@@ -91,5 +112,23 @@ class LoginPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void signIn() async {
+    String email = emailController.text.toString();
+    String password = passwordController.text.toString();
+
+    User? user = await _auth.signInWithEmailAndPassword(email, password);
+    if (user != null) {
+      print("User is successfully signin:");
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => DataMonitoring(),
+        ),
+      );
+    } else {
+      print("Some error happened");
+    }
   }
 }

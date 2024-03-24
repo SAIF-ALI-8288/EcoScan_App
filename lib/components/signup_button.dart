@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class SignUpButton extends StatelessWidget {
-  const SignUpButton({super.key});
+  SignUpButton({super.key, required this.onPressed});
+  final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -9,7 +10,7 @@ class SignUpButton extends StatelessWidget {
       width: 200,
       height: 50,
       child: ElevatedButton(
-        onPressed: () {},
+        onPressed: onPressed,
         style: ElevatedButton.styleFrom(
           foregroundColor: Colors.white, backgroundColor: Colors.orange[700],
           elevation: 15, // Shadow elevation

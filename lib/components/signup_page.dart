@@ -1,17 +1,40 @@
+import 'package:eco_scan/Auth/auth_page.dart';
+import 'package:eco_scan/components/data_monitoring.dart';
 import 'package:eco_scan/components/signup_button.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'login_page.dart';
 import 'my_textformfield.dart';
 
-class SignUpPage extends StatelessWidget {
+class SignUpPage extends StatefulWidget {
   SignUpPage({super.key});
+
+  @override
+  State<SignUpPage> createState() => _SignUpPageState();
+}
+
+class _SignUpPageState extends State<SignUpPage> {
+  final FirebaseAuthServices _auth = FirebaseAuthServices();
   //Text editing controller
   final usernameController = TextEditingController();
-  final passwordController = TextEditingController();
-  final confirmpasswordController = TextEditingController();
-  final emailController = TextEditingController();
 
+  final passwordController = TextEditingController();
+
+  final confirmpasswordController = TextEditingController();
+
+  final emailController = TextEditingController();
+  @override
+  void dispose() {
+    usernameController.dispose();
+    passwordController.dispose();
+    confirmpasswordController;
+    emailController.dispose();
+    // TODO: implement dispose
+    super.dispose();
+  }
+
+  //Signup Method
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -83,7 +106,9 @@ class SignUpPage extends StatelessWidget {
                 const SizedBox(
                   height: 20,
                 ),
-                SignUpButton(),
+                SignUpButton(
+                  onPressed: signUp,
+                ),
                 const SizedBox(
                   height: 15,
                 ),
@@ -108,5 +133,24 @@ class SignUpPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void signUp() async {
+    String username = usernameController.text.toString();
+    String email = emailController.text.toString();
+    String password = passwordController.text.toString();
+    String confirmpassword = confirmpasswordController.text.toString();
+    User? user = await _auth.signUpWithEmailAndPassword(email, password);
+    if (user != null) {
+      print("User is successfully created:");
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => DataMonitoring(),
+        ),
+      );
+    } else {
+      print("Some error happened");
+    }
   }
 }

@@ -1,8 +1,8 @@
-import 'package:eco_scan/components/data_monitoring.dart';
 import 'package:flutter/material.dart';
 
 class SignInButton extends StatelessWidget {
-  const SignInButton({super.key});
+  const SignInButton({super.key, required this.onPressed});
+  final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -10,14 +10,7 @@ class SignInButton extends StatelessWidget {
       width: 200,
       height: 50,
       child: ElevatedButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => DataMonitoring(),
-            ),
-          );
-        },
+        onPressed: onPressed,
         style: ElevatedButton.styleFrom(
           foregroundColor: Colors.white, backgroundColor: Colors.orange[700],
           elevation: 15, // Shadow elevation
