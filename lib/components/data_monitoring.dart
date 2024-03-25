@@ -1,11 +1,32 @@
 import 'package:eco_scan/components/datalistView.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
-class DataMonitoring extends StatelessWidget {
+class DataMonitoring extends StatefulWidget {
   const DataMonitoring({Key? key}) : super(key: key);
 
   @override
+  State<DataMonitoring> createState() => _DataMonitoringState();
+}
+
+class _DataMonitoringState extends State<DataMonitoring> {
+  String Te = '24';
+  String He = '1';
+  @override
   Widget build(BuildContext context) {
+    DatabaseReference ref =
+        FirebaseDatabase.instance.ref().child('Temperature');
+    DatabaseReference red = FirebaseDatabase.instance.ref().child('He');
+    ref.onValue.listen((event) {
+      setState(() {
+        Te = event.snapshot.value.toString();
+      });
+    });
+    red.onValue.listen((event) {
+      setState(() {
+        He = event.snapshot.value.toString();
+      });
+    });
     return Scaffold(
       backgroundColor: Colors.grey[400],
       appBar: AppBar(
@@ -64,7 +85,7 @@ class DataMonitoring extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          "50ºC",
+                          '${Te}°C',
                           style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
@@ -103,7 +124,7 @@ class DataMonitoring extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          "50%",
+                          He + "%",
                           style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
